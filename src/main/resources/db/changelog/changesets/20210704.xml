@@ -20,6 +20,111 @@
                 <constraints nullable="false" unique="true"/>
             </column>
             <column name="is_approved" type="boolean" defaultValue="false"/>
+            <column name="currency_id" type="integer"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="2" author="dshubin">
+        <createTable tableName="approval">
+            <column name="approval_id">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="user_id" type="integer">
+                <constraints references="user(user_id)"
+                             foreignKeyName="approval_user_fk"/>
+            </column>
+            <column name="code" type="varchar">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="expired_at" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="3" author="dshubin">
+        <createTable tableName="currency">
+            <column name="currency_id" type="integer">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="varchar">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="4" author="dshubin">
+        <addForeignKeyConstraint
+                baseTableName="user"
+                baseColumnNames="currency_id"
+                constraintName="user_currency_fk"
+                referencedTableName="currency"
+                referencedColumnNames="currency_id"/>
+    </changeSet>
+
+    <changeSet id="5" author="dshubin">
+        <createTable tableName="rate">
+            <column name="rate_id" type="integer">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="from" type="integer">
+                <constraints references="currency(currency_id)"
+                             foreignKeyName="rate_currency_from_fk"/>
+            </column>
+            <column name="to" type="integer">
+                <constraints references="currency(currency_id)"
+                             foreignKeyName="rate_currency_to_fk"/>
+            </column>
+            <column name="date" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="amount" type="integer">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="6" author="dshubin">
+        <createTable tableName="cost_group">
+            <column name="cost_group_id" type="integer">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="created_by" type="integer">
+                <constraints references="user(user_id)"
+                             foreignKeyName="cost_group_user_fk"/>
+            </column>
+            <column name="name" type="varchar">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="7" author="dshubin">
+        <createTable tableName="cost">
+            <column name="cost_id" type="integer">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="user_id" type="integer">
+                <constraints references="user(user_id)"
+                             foreignKeyName="cost_user_fk"/>
+            </column>
+            <column name="cost_group_id" type="integer">
+                <constraints references="cost_group(cost_group_id)"
+                             foreignKeyName="cost_cost_group_fk"/>
+            </column>
+            <column name="amount" type="integer">
+                <constraints nullable="false"/>
+            </column>
+            <column name="cost_date" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="currency_id" type="integer">
+                <constraints references="currency(currency_id)"
+                             foreignKeyName="cost_currency_fk"/>
+            </column>
         </createTable>
     </changeSet>
 
