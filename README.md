@@ -1,7 +1,7 @@
 # Cost-accounting
 
 Перед запуском приложения нужно запустить бд.
- - docker run -p 5432:5432 --name db -e POSTGRES_PASSWORD=password -d postgres
+ - docker run -p 5432:5432 --name db -e POSTGRES_PASSWORD=password -e POSTGRES_DB=costaccounting -d postgres
 
 Параметры:
  - -p port_1:port_2 пробрасывает port_1 локальной машины на port_2 контейнера
