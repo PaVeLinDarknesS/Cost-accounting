@@ -1,0 +1,26 @@
+version: '2'
+services:
+  db:
+    container_name: db
+    image: "postgres:latest"
+    networks:
+      - costaccounting-network
+    environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: costaccounting
+  app:
+    container_name: app
+    depends_on:
+      db:
+        condition: service_started
+    build:
+      context: ../
+      dockerfile: Dockerfile
+    ports:
+      - 8081:8081
+    networks:
+      - costaccounting-network
+
+networks:
+  costaccounting-network:
+    driver: bridge
