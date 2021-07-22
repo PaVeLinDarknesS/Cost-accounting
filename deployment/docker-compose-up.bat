@@ -1,5 +1,6 @@
 cd ..
-mvn clean package
+call mvn clean package
+echo on
 cd deployment
 docker-compose up --build
 pause
